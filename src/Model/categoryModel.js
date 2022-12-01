@@ -11,7 +11,7 @@ const categorySchema = new mongoose.Schema(
       ref: "SubCategory",
     },
 
-    product_file: {
+    product: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
     },

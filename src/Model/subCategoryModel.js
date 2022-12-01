@@ -5,7 +5,7 @@ const subCategorySchema = new mongoose.Schema(
     sub_categeory_type: {
       type: String,
     },
-    product_folder: 
+    product: 
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
