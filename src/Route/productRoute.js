@@ -4,7 +4,7 @@ import upload from "./../utils/multer"
 
 const router = express.Router();
 
-// router.route("/create").post(productController.createProduct);
+router.route("/create").post(productController.createProduct);
 
 router
   .route("/dynamicImg")

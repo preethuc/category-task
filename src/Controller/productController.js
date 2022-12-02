@@ -14,7 +14,7 @@ console.log(req.file);
         res.status(201).json({
           status: "success",
           message: "successfully created",
-          image: newImage,
+          image: newImage.product_image,
         });
   } catch (error) {
     console.log(error);
@@ -35,7 +35,7 @@ exports.createProduct = async (req, res) => {
     // }
     // file.mv(dir);
 
-    const productData = await Product.create();
+    const productData = await Product.create(req.body);
     return res.status(201).json({
       status: "success",
       message: "Product Created",

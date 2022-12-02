@@ -3,7 +3,7 @@ import multer from "multer";
 
 const fileStorageEngine = multer.diskStorage({
   destination: function (req, file, cb) {
-    let folderPath = req.body.folderPath;
+    let folderPath = req.query.folderPath;
     folderPath = `./${folderPath}`;
     if (!fs.existsSync(folderPath)) {
       fs.mkdirSync(folderPath, {
