@@ -9,10 +9,7 @@ router.route("/create").post(productController.createProduct);
 router
   .route("/dynamicImg")
   .post(upload.single("product_img"), productController.createDynamicImage);
-//   version + "/upload_files_dynamic",
-//   multer.upload.single("file_name"),
-//   file_upload_dynamic_folder
-// );
+
 router.route("/get").get(productController.getProduct);
 
 module.exports = router;
