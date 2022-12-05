@@ -53,3 +53,29 @@ exports.filterSubCategory = async (req, res) => {
     })  }
 };
 
+//GET - aggregate Sub-category by subcategory-type
+exports.subCategoryList = async (req, res) => {
+  try {
+    const data = await SubCategory.aggregate([
+      {
+        $group: {
+          // _id: "$sub_categeory_type",
+          _id: { $toUpper: "$sub_categeory_type" },
+
+          numProducts:{$sum:1},
+        },
+      },
+    ]);
+    res.status(200).json({
+      status: "success",
+      message: "Sub-Category-Types List",
+      Data: data,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error: error,
+    });
+  }
+};
