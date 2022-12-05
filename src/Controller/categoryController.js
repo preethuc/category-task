@@ -67,6 +67,7 @@ exports.CategoryListName = async (req, res) => {
       {
         $group: {
           _id: "$category",
+      
           // _id: { $toUpper: "$category" },
 
           // numProducts:{$sum:1},
@@ -87,36 +88,3 @@ exports.CategoryListName = async (req, res) => {
   }
 };
 
-// exports.getTourStats = catchAsync(async (req,res,next) => {
-
-//   const stats = await Tour.aggregate([
-//     // {
-//     // $match: { ratingsAverage: {$gte : 4.5} }
-//     // },
-
-// {
-//     $group: {
-//       // _id: null,
-//       _id: { $toUpper: '$difficulty' },
-//       // _id:'$difficulty',
-//       // _id:'$ratingsAverage',
-//       numTours:{$sum:1},
-//       numRatings:{$sum:'$ratingsQuantity'},
-//       avgRating: {$avg : '$ratingsAverage'},
-//       avgPrice: { $avg: '$price'},
-//       minPrice: {$min:'$price'},
-//       maxPrice: {$max:'$price'}
-//     },
-// },
-// // {
-// //     $sort:{avgPrice:1}
-// // },
-// // {
-// //   $match:{_id: { $ne: 'EASY'}}
-// // }
-//   ]);
-//   res.status(200).json({
-//     status: 'success',
-//     data: stats,
-//   });
-// })

@@ -13,8 +13,9 @@ exports.createSubCaegory = async (req, res) => {
     res.status(400).json({
       status: "fail",
       Message: "ERROR Occured",
-      Error:error
-    })  }
+      Error: error,
+    });
+  }
 };
 
 //GET - all sub-category
@@ -31,8 +32,9 @@ exports.getSubCategory = async (req, res) => {
     res.status(400).json({
       status: "fail",
       Message: "ERROR Occured",
-      Error:error
-    })  }
+      Error: error,
+    });
+  }
 };
 
 // GET - filter sub-category type by passing params
@@ -49,8 +51,9 @@ exports.filterSubCategory = async (req, res) => {
     res.status(400).json({
       status: "fail",
       Message: "ERROR Occured",
-      Error:error
-    })  }
+      Error: error,
+    });
+  }
 };
 
 //GET - aggregate Sub-category by subcategory-type
@@ -62,13 +65,13 @@ exports.subCategoryList = async (req, res) => {
           // _id: "$sub_categeory_type",
           _id: { $toUpper: "$sub_categeory_type" },
 
-          numProducts:{$sum:1},
+          numProducts: { $sum: 1 },
         },
       },
     ]);
     res.status(200).json({
       status: "success",
-      message: "Sub-Category-Types List",
+      message: "Sub-Category names List",
       Data: data,
     });
   } catch (error) {
@@ -79,3 +82,6 @@ exports.subCategoryList = async (req, res) => {
     });
   }
 };
+
+
+
