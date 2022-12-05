@@ -1,63 +1,17 @@
 import Product from "./../Model/productModel";
-import fs from "fs"
-// //dynamic-image upload
-// exports.createDynamicImage = async (req, res) => {
-//   try {
-//     const newImage = await new Product(req.body);
-//     console.log(req.file);
-//     if (req.file) {
-//       console.log(req.file);
-//       newImage.product_image = req.file.path;
-//     }
-//     newImage.save();
-
-//     res.status(201).json({
-//       status: "success",
-//       message: "successfully created",
-//       image: newImage.product_image,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-//dynamic-image upload
-// exports.createDynamicImage = async (req, res) => {
-//   try {
-//     console.log("file");
-//     const newImage = await new Product(req.body);
-//     newImage.save();
-
-//   const filename = Date.now() + "__" + req.files.product_image.name;
-//   const file = req.files.product_image;
-
-//   return  res.status(201).json({
-//             status: "success",
-//             message: "successfully created",
-//             image: newImage.product_image,
-//           });
-//   var dir = "./temp/" + filename ;
-//   if (!fs.existsSync(dir)) {
-//     fs.mkdirSync(filename);
-//   }
-
-//  } catch (error) {
-//   console.log(error.message);
-//  }
-
-// }
+import fs from "fs";
 
 exports.imageUpload = async (req, res) => {
   try {
     const filename = Date.now() + "__" + req.files.product_image.name;
     const file = req.files.product_image;
     console.log(file);
-    let dir = "./upload/" + req.query.folder_name;
-    
+    let dir = "./upload/"  + req.query.folder_name ; 
+
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
       }
-    let uploadPath =  "/upload/" + req.query.folder_name;
-    console.log(dir);
+    let uploadPath = "./upload/" + req.query.folder_name + "/" + filename
     file.mv(uploadPath,(err)=>{
       if(err){
           return res.status(400).json({
@@ -68,18 +22,12 @@ exports.imageUpload = async (req, res) => {
       else {
           res.status(200).json({
               status:'success',
-              message:"it's OK...!"
+              message:"Uploaded",
+              image:uploadPath,
           })
       }
 })
-    // const newImage = await new Product(req.body);
-    // console.log(newImage);
-    // newImage.save();
-    // res.status(200).json({
-    //   status: "success",
-    //   message: "file uploaded",
-    //   image: newImage.product_image,
-    // });
+    
   } catch (error) {
     console.log(error.message);
   }
