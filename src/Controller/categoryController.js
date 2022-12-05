@@ -10,7 +10,11 @@ exports.createCategory = async (req, res) => {
       Data: data,
     });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error: error,
+    });
   }
 };
 
@@ -28,25 +32,30 @@ exports.getCategory = async (req, res) => {
       Data: data,
     });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error: error,
+    });
   }
 };
 
 //GET - Category list by filter
 exports.filterCategory = async (req, res) => {
-    try {
-        const data = await Category.find({ categeory: req.params.cat })
-         
-    
-        return res.status(201).json({
-          status: "success",
-          result: data.length,
-          message: "Category List",
-          Data: data,
-        });
-      } catch (error) {
-        console.log(error.message);
-      }
-}
+  try {
+    const data = await Category.find({ categeory: req.params.cat });
 
-
+    return res.status(201).json({
+      status: "success",
+      result: data.length,
+      message: "Category List",
+      Data: data,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error: error,
+    });
+  }
+};

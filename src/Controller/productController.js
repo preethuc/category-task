@@ -1,35 +1,38 @@
 import Product from "./../Model/productModel";
 import fs from "fs";
 
+//Image Upload dynamically - Express-file-upload
 exports.imageUpload = async (req, res) => {
   try {
     const filename = Date.now() + "__" + req.files.product_image.name;
     const file = req.files.product_image;
     console.log(file);
-    let dir = "./upload/"  + req.query.folder_name ; 
+    let dir = "./upload/" + req.query.folder_name;
 
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+    }
+    let uploadPath = "./upload/" + req.query.folder_name + "/" + filename;
+    file.mv(uploadPath, (err) => {
+      if (err) {
+        return res.status(400).json({
+          status: "fail",
+          error: err,
+        });
+      } else {
+        res.status(200).json({
+          status: "success",
+          message: "Uploaded",
+          image: uploadPath,
+        });
       }
-    let uploadPath = "./upload/" + req.query.folder_name + "/" + filename
-    file.mv(uploadPath,(err)=>{
-      if(err){
-          return res.status(400).json({
-              status:'fail',
-              error:err
-          })
-      }
-      else {
-          res.status(200).json({
-              status:'success',
-              message:"Uploaded",
-              image:uploadPath,
-          })
-      }
-})
-    
+    });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error: error,
+    });
   }
 };
 
@@ -43,7 +46,11 @@ exports.createProduct = async (req, res) => {
       Data: productData,
     });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error: error,
+    });
   }
 };
 
@@ -58,6 +65,10 @@ exports.getProduct = async (req, res) => {
       Data: data,
     });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error: error,
+    });
   }
 };

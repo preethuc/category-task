@@ -1,4 +1,31 @@
-// //dynamic-image upload
+
+
+//Multer process- image upload
+// import fs from "fs";
+// import multer from "multer";
+
+// const fileStorageEngine = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     let folderPath = req.query.folderPath;
+//   folderPath = `./${folderPath}`;
+//   if (!fs.existsSync(folderPath)) {
+//     fs.mkdirSync(filename , {
+//       recursive: true,
+//     });
+//   }
+//    cb(null, `${folderPath}/`);
+//   },
+
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname);
+//   },
+// });
+// const upload = multer({ storage: fileStorageEngine });
+
+// module.exports = upload;
+
+
+// //dynamic-image upload -controller code - multer process
 // exports.createDynamicImage = async (req, res) => {
 //   try {
 //     const newImage = await new Product(req.body);
@@ -18,7 +45,9 @@
 //     console.log(error);
 //   }
 // };
-//dynamic-image upload
+
+
+//dynamic-image upload -another method
 // exports.createDynamicImage = async (req, res) => {
 //   try {
 //     console.log("file");
@@ -45,6 +74,8 @@
 // }
 
 
+
+//file upload in route
 // router.route("/dynamicImg")
 // // .post(productController.createDynamicImage);
 // .post(upload.single("product_img"), productController.createDynamicImage);
@@ -77,3 +108,6 @@
 //     res.status(500).send(err);
 //   }
 // });
+
+
+

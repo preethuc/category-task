@@ -10,8 +10,11 @@ exports.createSubCaegory = async (req, res) => {
       Data: data,
     });
   } catch (error) {
-    console.log(error.message);
-  }
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error:error
+    })  }
 };
 
 //GET - all sub-category
@@ -25,8 +28,11 @@ exports.getSubCategory = async (req, res) => {
       Data: data,
     });
   } catch (error) {
-    console.log(error.message);
-  }
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error:error
+    })  }
 };
 
 // GET - filter sub-category type by passing params
@@ -40,7 +46,10 @@ exports.filterSubCategory = async (req, res) => {
       Data: data,
     });
   } catch (error) {
-    console.log(error.message);
-  }
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error:error
+    })  }
 };
 
