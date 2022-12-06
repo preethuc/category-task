@@ -2,9 +2,9 @@ import express from "express";
 import morgan from "morgan";
 // import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
-import productRoute from "./Route/productRoute";
-import subCategoryRoute from "./Route/subCategoryRoute";
-import categoryRoute from "./Route/categoryRoute";
+import productRoute from "./Route/product-route";
+import subCategoryRoute from "./Route/subcategory-route";
+import categoryRoute from "./Route/category-route";
 
 const app = express();
 app.use(morgan("dev"));

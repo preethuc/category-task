@@ -1,7 +1,7 @@
-import SubCategory from "./../Model/subCategoryModel";
+import SubCategory from "../Model/subcategory-model";
 
 //POST - create sub-category
-exports.createSubCaegory = async (req, res) => {
+export const createSubCaegory = async (req, res) => {
   try {
     const data = await SubCategory.create(req.body);
     return res.status(201).json({
@@ -19,7 +19,7 @@ exports.createSubCaegory = async (req, res) => {
 };
 
 //GET - all sub-category
-exports.getSubCategory = async (req, res) => {
+export const getSubCategory = async (req, res) => {
   try {
     const data = await SubCategory.find().populate("product");
     return res.status(201).json({
@@ -38,7 +38,7 @@ exports.getSubCategory = async (req, res) => {
 };
 
 // GET - filter sub-category type by passing params
-exports.filterSubCategory = async (req, res) => {
+export const filterSubCategory = async (req, res) => {
   try {
     const data = await SubCategory.find({
       sub_categeory_type: req.params.sub,
@@ -58,17 +58,11 @@ exports.filterSubCategory = async (req, res) => {
   }
 };
 
-//GET - aggregate Sub-category by subcategory-type
-exports.subCategoryList = async (req, res) => {
+//GET - select subcategory-type field 
+export const subCategoryList = async (req, res) => {
   try {
-    const data = await SubCategory.aggregate([
-      {
-        $group: {
-          // _id: "$sub_categeory_type",
-          _id: { $toUpper: "$sub_categeory_type" },
-        },
-      },
-    ]);
+    const data = await SubCategory.find().select("sub_categeory_type").exec()
+     
     res.status(200).json({
       status: "success",
       message: "Sub-Category names List",
@@ -84,7 +78,7 @@ exports.subCategoryList = async (req, res) => {
 };
 
 // PUT - adding product in sub_category
-exports.updateSubCategoryList = async (req, res, next) => {
+export const updateSubCategoryList = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const data = await SubCategory.findById(productId).exec();

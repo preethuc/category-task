@@ -1,8 +1,8 @@
-import Product from "./../Model/productModel";
+import Product from "../Model/product-model";
 import fs from "fs";
 
 //Image Upload dynamically - Express-file-upload
-exports.imageUpload = async (req, res) => {
+export const imageUpload = async (req, res) => {
   try {
     const filename = Date.now() + "__" + req.files.product_image.name;
     const file = req.files.product_image;
@@ -37,7 +37,7 @@ exports.imageUpload = async (req, res) => {
 };
 
 //POST - create product
-exports.createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
     const productData = await Product.create(req.body);
     return res.status(201).json({
@@ -55,7 +55,7 @@ exports.createProduct = async (req, res) => {
 };
 
 //GET - All product
-exports.getProduct = async (req, res) => {
+export const getProduct = async (req, res) => {
   try {
     const data = await Product.find();
     return res.status(201).json({

@@ -1,7 +1,7 @@
-import Category from "./../Model/categoryModel";
+import Category from "../Model/category-model";
 
 //POST - create category
-exports.createCategory = async (req, res) => {
+export const createCategory = async (req, res) => {
   try {
     const data = await Category.create(req.body);
     return res.status(201).json({
@@ -19,7 +19,7 @@ exports.createCategory = async (req, res) => {
 };
 
 //GET - all category list
-exports.getCategory = async (req, res) => {
+export const getCategory = async (req, res) => {
   try {
     const data = await Category.find().populate(
       "sub_category",
@@ -43,7 +43,7 @@ exports.getCategory = async (req, res) => {
 };
 
 //GET - Category list by filter
-exports.filterCategory = async (req, res) => {
+export const filterCategory = async (req, res) => {
   try {
     const data = await Category.find({ category: req.params.cat }).populate(
       "sub_category",
@@ -64,23 +64,10 @@ exports.filterCategory = async (req, res) => {
   }
 };
 
-//GET - aggregate category by category name
-exports.CategoryListName = async (req, res) => {
+//GET -  select category name filed
+export const categoryListName = async (req, res) => {
   try {
-    const data = await Category.aggregate([
-      {
-        $group: {
-          _id: "$category",
-          // Sub_Category: { $min: "$sub_category" },
-          // maxProducts:{$max:"$category"},
-        },
-      },
-
-      // {
-      //   // remove particular category
-      //   $match: { _id: { $ne: "FASHION" } },
-      // },
-    ]);
+    const data = await Category.find().select("category").exec();
 
     res.status(200).json({
       status: "success",
@@ -97,7 +84,7 @@ exports.CategoryListName = async (req, res) => {
 };
 
 //GET - category by Id
-exports.getCategoryById = async (req, res) => {
+export const getCategoryById = async (req, res) => {
   try {
     const data = await Category.findById(req.params.id).populate(
       "sub_category",
@@ -120,8 +107,8 @@ exports.getCategoryById = async (req, res) => {
   }
 };
 
-// PUT
-exports.updateCategoryList = async (req, res, next) => {
+// PUT - adding sub_category
+export const updateCategoryList = async (req, res, next) => {
   try {
     const subCategoryId = req.params.id;
     const data = await Category.findById(subCategoryId).exec();
