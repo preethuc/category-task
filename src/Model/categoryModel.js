@@ -6,15 +6,19 @@ const categorySchema = new mongoose.Schema(
       type: String,
     },
 
-    sub_category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "SubCategory",
-    },
+    sub_category: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "SubCategory",
+      },
+    ],
 
-    product: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
-    },
+    // products: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "SubCategory",
+    //   },
+    // ],
   },
   { versionKey: false }
 );

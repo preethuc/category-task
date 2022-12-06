@@ -5,12 +5,12 @@ const subCategorySchema = new mongoose.Schema(
     sub_categeory_type: {
       type: String,
     },
-    product: 
+    product: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
       },
-    
+    ],
   },
   { versionKey: false }
 );

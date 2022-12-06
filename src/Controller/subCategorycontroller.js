@@ -40,7 +40,9 @@ exports.getSubCategory = async (req, res) => {
 // GET - filter sub-category type by passing params
 exports.filterSubCategory = async (req, res) => {
   try {
-    const data = await SubCategory.find({ sub_categeory_type: req.params.sub });
+    const data = await SubCategory.find({
+      sub_categeory_type: req.params.sub,
+    }).populate("product");
     return res.status(201).json({
       status: "success",
       result: data.length,
@@ -64,8 +66,6 @@ exports.subCategoryList = async (req, res) => {
         $group: {
           // _id: "$sub_categeory_type",
           _id: { $toUpper: "$sub_categeory_type" },
-
-          numProducts: { $sum: 1 },
         },
       },
     ]);
@@ -83,5 +83,41 @@ exports.subCategoryList = async (req, res) => {
   }
 };
 
-
-
+// PUT - adding product in sub_category
+exports.updateSubCategoryList = async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    const data = await SubCategory.findById(productId).exec();
+    let product = data.product;
+    console.log(product);
+    if (data) {
+      product.push(req.body.product);
+      SubCategory.findByIdAndUpdate(
+        productId,
+        { product: product },
+        { new: true },
+        function (err, result) {
+          if (err) {
+            console.log(err);
+            return res.json({
+              success: true,
+              message: err.message,
+            });
+          } else {
+            return res.json({
+              success: true,
+              message: "product Added successfully",
+              data: result,
+            });
+          }
+        }
+      );
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error: error,
+    });
+  }
+};

@@ -21,9 +21,11 @@ exports.createCategory = async (req, res) => {
 //GET - all category list
 exports.getCategory = async (req, res) => {
   try {
-    const data = await Category.find()
-      .populate("sub_category", "sub_categeory_type")
-      .populate("product", "product_name");
+    const data = await Category.find().populate(
+      "sub_category",
+      "sub_categeory_type"
+    );
+    // .populate("products", "product");
 
     return res.status(200).json({
       status: "success",
@@ -43,8 +45,10 @@ exports.getCategory = async (req, res) => {
 //GET - Category list by filter
 exports.filterCategory = async (req, res) => {
   try {
-    const data = await Category.find({ category: req.params.cat });
-
+    const data = await Category.find({ category: req.params.cat }).populate(
+      "sub_category",
+      "sub_categeory_type"
+    );
     return res.status(201).json({
       status: "success",
       result: data.length,
@@ -67,8 +71,7 @@ exports.CategoryListName = async (req, res) => {
       {
         $group: {
           _id: "$category",
-          numProducts: { $sum: 1 },
-          minProducts: { $min: "$product" },
+          // Sub_Category: { $min: "$sub_category" },
           // maxProducts:{$max:"$category"},
         },
       },
@@ -93,13 +96,14 @@ exports.CategoryListName = async (req, res) => {
   }
 };
 
-
 //GET - category by Id
 exports.getCategoryById = async (req, res) => {
   try {
-    const data = await Category.findById(req.params.id)
-      .populate("sub_category", "sub_categeory_type")
-      .populate("product", "product_name");
+    const data = await Category.findById(req.params.id).populate(
+      "sub_category",
+      "sub_categeory_type"
+    );
+    // .populate("product", "product_name");
 
     return res.status(200).json({
       status: "success",
@@ -116,25 +120,41 @@ exports.getCategoryById = async (req, res) => {
   }
 };
 
-// exports.categoryUnderSub = async (req, res) => {
-//   try {
-//     const data = await Category.find({category:"GYM"})
-//       .populate("sub_category", "sub_categeory_type")
-//       // .populate("product", "product_name");
-
-//     return res.status(200).json({
-//       status: "success",
-//       result: data.length,
-//       message: "Category Under Sub-category",
-//       Data: {
-//         sub_categories: [data.sub_category] 
-//       }
-//     });
-//   } catch (error) {
-//     res.status(400).json({
-//       status: "fail",
-//       Message: "ERROR Occured",
-//       Error: error,
-//     });
-//   }
-// }
+// PUT
+exports.updateCategoryList = async (req, res, next) => {
+  try {
+    const subCategoryId = req.params.id;
+    const data = await Category.findById(subCategoryId).exec();
+    let sub_category = data.sub_category;
+    console.log(sub_category);
+    if (data) {
+      sub_category.push(req.body.sub_category);
+      Category.findByIdAndUpdate(
+        subCategoryId,
+        { sub_category: sub_category },
+        { new: true },
+        function (err, result) {
+          if (err) {
+            console.log(err);
+            return res.json({
+              success: true,
+              message: err.message,
+            });
+          } else {
+            return res.json({
+              success: true,
+              message: "sub_category Added successfully",
+              data: result,
+            });
+          }
+        }
+      );
+    }
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      Message: "ERROR Occured",
+      Error: error,
+    });
+  }
+};
